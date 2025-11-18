@@ -1,0 +1,197 @@
+{
+  "info": {
+    "name": "Land Unit API",
+    "description": "API for querying hierarchical land units from ArcGIS MapServer",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Get All Mills",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/landunit/mill",
+          "host": ["{{BASE_URL}}"],
+          "path": ["api", "landunit", "mill"]
+        },
+        "description": "Get all mills without any filters"
+      },
+      "response": []
+    },
+    {
+      "name": "2. Get Regions by Mill",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/landunit/region?mill=Jagebob Mill",
+          "host": ["{{BASE_URL}}"],
+          "path": ["api", "landunit", "region"],
+          "query": [
+            {
+              "key": "mill",
+              "value": "Jagebob Mill",
+              "description": "Filter regions by mill name"
+            }
+          ]
+        },
+        "description": "Get all regions for a specific mill"
+      },
+      "response": []
+    },
+    {
+      "name": "3. Get All Regions (No Filter)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/landunit/region",
+          "host": ["{{BASE_URL}}"],
+          "path": ["api", "landunit", "region"]
+        },
+        "description": "Get all regions (may return many results)"
+      },
+      "response": []
+    },
+    {
+      "name": "4. Get Farms by Mill and Region",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/landunit/farm?mill=Jagebob Mill&region=JAGF",
+          "host": ["{{BASE_URL}}"],
+          "path": ["api", "landunit", "farm"],
+          "query": [
+            {
+              "key": "mill",
+              "value": "Jagebob Mill",
+              "description": "Filter by mill name"
+            },
+            {
+              "key": "region",
+              "value": "JAGF",
+              "description": "Filter by region name"
+            }
+          ]
+        },
+        "description": "Get farms filtered by mill and region"
+      },
+      "response": []
+    },
+    {
+      "name": "5. Get Farms by Region Only",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/landunit/farm?region=JAGF",
+          "host": ["{{BASE_URL}}"],
+          "path": ["api", "landunit", "farm"],
+          "query": [
+            {
+              "key": "region",
+              "value": "JAGF",
+              "description": "Filter by region name"
+            }
+          ]
+        },
+        "description": "Get farms filtered by region only"
+      },
+      "response": []
+    },
+    {
+      "name": "6. Get Blocks by Farm",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/landunit/block?farm=YOUR_FARM_NAME",
+          "host": ["{{BASE_URL}}"],
+          "path": ["api", "landunit", "block"],
+          "query": [
+            {
+              "key": "farm",
+              "value": "YOUR_FARM_NAME",
+              "description": "Replace with actual farm name from previous query"
+            }
+          ]
+        },
+        "description": "Get blocks for a specific farm"
+      },
+      "response": []
+    },
+    {
+      "name": "7. Get Paddocks by Block",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/landunit/paddock?block=YOUR_BLOCK_NAME",
+          "host": ["{{BASE_URL}}"],
+          "path": ["api", "landunit", "paddock"],
+          "query": [
+            {
+              "key": "block",
+              "value": "YOUR_BLOCK_NAME",
+              "description": "Replace with actual block name from previous query"
+            }
+          ]
+        },
+        "description": "Get paddocks for a specific block"
+      },
+      "response": []
+    },
+    {
+      "name": "8. Test Invalid Level",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/landunit/invalid",
+          "host": ["{{BASE_URL}}"],
+          "path": ["api", "landunit", "invalid"]
+        },
+        "description": "Test error handling for invalid level"
+      },
+      "response": []
+    },
+    {
+      "name": "9. Get All Farms (Warning Test)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/landunit/farm",
+          "host": ["{{BASE_URL}}"],
+          "path": ["api", "landunit", "farm"]
+        },
+        "description": "Get all farms without parent filter (will show warning)"
+      },
+      "response": []
+    },
+    {
+      "name": "10. Get All Paddocks",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/landunit/paddock",
+          "host": ["{{BASE_URL}}"],
+          "path": ["api", "landunit", "paddock"]
+        },
+        "description": "Get all paddocks (may be very large dataset)"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ]
+}
+

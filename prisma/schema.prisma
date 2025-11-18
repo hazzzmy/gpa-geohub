@@ -1,0 +1,210 @@
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String              @id @default(cuid())
+  email          String              @unique
+  name           String
+  password       String?
+  avatar         String?
+  image          String?             // Better Auth standard field
+  isActive       Boolean             @default(true)
+  emailVerified  Boolean             @default(false)
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+  accounts       Account[]
+  sessions       Session[]
+  permissions    UserPermission[]
+  userRoles      UserRole[]
+  organizations  UserOrganization[]  // Many-to-Many with Organizations
+  userGroups     UserUserGroup[]     // Many-to-Many with UserGroups
+
+  @@map("users")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  token        String   @unique @map("sessionToken")  // Better Auth uses 'token' field
+  userId       String
+  expiresAt    DateTime
+  ipAddress    String?
+  userAgent    String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  accountId             String    // Better Auth core field
+  providerId            String    // Better Auth core field
+  userId                String
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?   // For credential provider
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([providerId, accountId])
+  @@map("accounts")
+}
+
+model Role {
+  id          String           @id @default(cuid())
+  name        String           @unique
+  description String?
+  isActive    Boolean          @default(true)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  permissions RolePermission[]
+  userRoles   UserRole[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id              String           @id @default(cuid())
+  name            String           @unique
+  description     String?
+  category        String?
+  isActive        Boolean          @default(true)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  rolePermissions RolePermission[]
+  userPermissions UserPermission[]
+
+  @@map("permissions")
+}
+
+model UserRole {
+  id         String    @id @default(cuid())
+  userId     String
+  roleId     String
+  assignedBy String?
+  assignedAt DateTime  @default(now())
+  expiresAt  DateTime?
+  isActive   Boolean   @default(true)
+  role       Role      @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, roleId])
+  @@map("user_roles")
+}
+
+model UserPermission {
+  id           String     @id @default(cuid())
+  userId       String
+  permissionId String
+  assignedBy   String?
+  assignedAt   DateTime   @default(now())
+  expiresAt    DateTime?
+  isActive     Boolean    @default(true)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, permissionId])
+  @@map("user_permissions")
+}
+
+model RolePermission {
+  id           String     @id @default(cuid())
+  roleId       String
+  permissionId String
+  assignedBy   String?
+  assignedAt   DateTime   @default(now())
+  isActive     Boolean    @default(true)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@unique([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+model Organization {
+  id          String              @id @default(cuid())
+  name        String
+  description String?
+  logoUrl     String?
+  website     String?
+  address     String?
+  phone       String?
+  email       String?
+  isActive    Boolean             @default(true)
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  userGroups  UserGroup[]
+  users       UserOrganization[]  // Many-to-Many with Users
+
+  @@map("organizations")
+}
+
+model UserGroup {
+  id             String         @id @default(cuid())
+  name           String
+  description    String?
+  organizationId String
+  isActive       Boolean        @default(true)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  users          UserUserGroup[] // Many-to-Many with Users
+
+  @@map("user_groups")
+}
+
+model UserOrganization {
+  id             String       @id @default(cuid())
+  userId         String
+  organizationId String
+  isPrimary      Boolean      @default(false) // Flag for primary organization
+  assignedBy     String?
+  assignedAt     DateTime     @default(now())
+  isActive       Boolean      @default(true)
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, organizationId])
+  @@map("user_organizations")
+}
+
+model UserUserGroup {
+  id          String    @id @default(cuid())
+  userId      String
+  userGroupId String
+  isPrimary   Boolean   @default(false) // Flag for primary user group
+  assignedBy  String?
+  assignedAt  DateTime  @default(now())
+  isActive    Boolean   @default(true)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userGroup   UserGroup @relation(fields: [userGroupId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, userGroupId])
+  @@map("user_user_groups")
+}
+
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
+}
