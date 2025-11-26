@@ -143,8 +143,13 @@ export async function GET(request: NextRequest) {
 
     console.log(`✅ Session created for OAuth user: ${larkUser.email}`);
 
+    // Get redirectTo from state or default to "/"
+    // Note: redirectTo might be stored in state parameter or cookie
+    // For now, default to "/" as requested
+    const redirectTo = "/";
+
     // Set session cookie and redirect
-    const response = NextResponse.redirect(new URL("/main", request.url));
+    const response = NextResponse.redirect(new URL(redirectTo, request.url));
     
     // Set the session cookie
     response.cookies.set("lark-session", sessionToken, {

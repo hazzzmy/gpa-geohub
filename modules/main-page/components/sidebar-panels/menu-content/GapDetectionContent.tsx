@@ -188,7 +188,7 @@ export function GapDetectionContent({ landUnit }: GapDetectionContentProps) {
               <Card className="border-emerald-200 bg-emerald-50 dark:border-emerald-900/40 dark:bg-emerald-950/20 py-0">
                 <CardContent className="px-3 py-3">
                   <p className="text-[11px] uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
-                    Planted Area
+                    Growth Area
                   </p>
                   <p className="text-2xl font-semibold text-emerald-700 dark:text-emerald-300 leading-tight whitespace-nowrap">
                     {formatter.format(plantedArea)} Ha

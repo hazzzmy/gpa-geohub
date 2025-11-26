@@ -8,6 +8,7 @@ export async function middleware(request: NextRequest) {
 
   // Define protected routes
   const protectedRoutes = [
+    "/",
     "/main",
     "/admin",
     "/profile",
@@ -18,15 +19,15 @@ export async function middleware(request: NextRequest) {
 
   // Define public routes (always accessible)
   const publicRoutes = [
-    "/",
     "/auth/signin",
     "/auth/signup",
     "/api/auth",
   ];
 
   // Check if current path is protected
-  const isProtectedRoute = protectedRoutes.some(route =>
-    pathname.startsWith(route)
+  // Special handling for root path "/"
+  const isProtectedRoute = pathname === "/" || protectedRoutes.some(route =>
+    route !== "/" && pathname.startsWith(route)
   );
 
   // Check if current path is public
@@ -60,12 +61,12 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // If user is authenticated and trying to access auth pages, redirect to dashboard
+  // If user is authenticated and trying to access auth pages, redirect to home
   if (isPublicRoute && pathname.startsWith("/auth/")) {
     const sessionCookie = request.cookies.get("lark-session")?.value;
 
     if (sessionCookie) {
-      return NextResponse.redirect(new URL("/main", request.url));
+      return NextResponse.redirect(new URL("/", request.url));
     }
   }
 

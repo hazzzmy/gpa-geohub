@@ -34,8 +34,8 @@ const menuCards: MenuCard[] = [
     color: "text-orange-600 dark:text-orange-400",
   },
   {
-    id: "crop-establishment",
-    title: "Crop Establishment & Germination",
+    id: "Weed Detection",
+    title: "Weed Detection",
     icon: Leaf,
     color: "text-emerald-600 dark:text-emerald-400",
   },
@@ -46,8 +46,8 @@ const menuCards: MenuCard[] = [
     color: "text-amber-600 dark:text-amber-400",
   },
   {
-    id: "drone-spraying",
-    title: "Drone Insecticide Spraying",
+    id: "spraying",
+    title: "Spraying Analysis",
     icon: Plane,
     color: "text-blue-600 dark:text-blue-400",
   },
@@ -191,7 +191,7 @@ export function DetailPanel({ node, onClose, onMenuSelect }: DetailPanelProps) {
                   </div>
                   <ChevronRight className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                 </div>
-      </Card>
+              </Card>
             );
           })}
         </div>

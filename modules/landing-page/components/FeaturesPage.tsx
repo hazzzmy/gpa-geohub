@@ -16,41 +16,15 @@ const features = {
       icon: BarChart3,
     },
     {
-      title: 'Crop Establishment',
-      description: 'Real-time monitoring of sugarcane germination performance.',
-      image: '/images/crop-establishment.jpg',
-      icon: BarChart3,
-    },
-    {
-      title: 'Insecticide Spraying',
-      description: 'Dashboard showcasing completed drone spraying missions.',
-      image: '/images/insecticide-spraying.jpg',
-      icon: BarChart3,
-    },
-  ],
-  mapApplications: [
-    {
       title: 'Infrastructure Progress Update',
       description: 'Interactive map for tracking construction progress.',
       image: '/images/infrastructure.jpg',
       icon: MapPin,
     },
     {
-      title: 'Forest Fire & Land Cover Change',
-      description: 'Map application to monitor fire locations and affected areas.',
+      title: 'Agro Climate Insight',
+      description: 'Map application to monitor Agro Climate Insight.',
       image: '/images/forest-fire.jpg',
-      icon: MapPin,
-    },
-    {
-      title: 'Soil Sampling',
-      description: 'Interactive map for visualizing soil sampling locations and analyzing nutrient availability.',
-      image: '/images/soil-sampling.jpg',
-      icon: MapPin,
-    },
-    {
-      title: 'Nursery Sermayam',
-      description: 'Map application to monitor Nursery Sermayam.',
-      image: '/images/nursery.jpg',
       icon: MapPin,
     },
   ],
@@ -59,11 +33,6 @@ const features = {
       title: 'Land Management',
       icon: BarChart3,
       description: 'Access land management data and reports',
-    },
-    {
-      title: 'Crop Establishment',
-      icon: Database,
-      description: 'View crop establishment metrics and analytics',
     },
   ],
 };
@@ -214,41 +183,6 @@ export default function FeaturesPage() {
           </div>
         </motion.section>
 
-        {/* Map Applications */}
-        <motion.section
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="mb-20"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-12">
-            Map Applications
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {features.mapApplications.map((feature, index) => (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
-                <Card className="h-full hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-                  <div className="aspect-video bg-gradient-to-br from-green-100 to-green-200 dark:from-green-900 dark:to-green-800 flex items-center justify-center">
-                    <feature.icon className="w-16 h-16 text-green-600 dark:text-green-400" />
-                  </div>
-                  <CardContent className="p-6">
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">
-                      {feature.title}
-                    </h3>
-                    <p className="text-slate-600 dark:text-slate-400">
-                      {feature.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </motion.section>
 
         {/* Data Directory */}
         <motion.section

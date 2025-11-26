@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { ChevronRight, ChevronDown, Loader2, AlertCircle, Search, X, Info } from "lucide-react";
+import { ChevronRight, ChevronDown, Loader2, AlertCircle, Search, X } from "lucide-react";
 import { useLandUnits, LandUnitItem } from "@/hooks/use-landunit";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
@@ -145,15 +145,6 @@ function TreeNode({ item, level, filters, depth, searchQuery, selectedNode, onSe
             {item.fid_1}
         </span>
         )}
-        
-        {/* Detail Button */}
-        <button
-          onClick={handleViewDetails}
-          className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-primary/10 rounded"
-          title="View details"
-        >
-          <Info className="w-3 h-3 text-primary" />
-        </button>
         
         {/* Count Badge */}
         {hasLoadedChildren && (
@@ -336,7 +327,7 @@ export function LandUnitTreeView({ onSelectionChange, onViewDetails, showSearch 
       )}
 
       {/* Tree */}
-      <div className="max-h-[550px] overflow-y-auto pr-2">
+      <div className="max-h-[550px] overflow-y-auto pr-2 scrollbar-hide" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
         {mills.map((mill, index) => {
           // Create unique key: use id if available, otherwise use index + name combination
           const uniqueKey = mill.id 
